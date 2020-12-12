@@ -24,7 +24,7 @@ if { $argc == 3 } {  ###### No space at the username ######
 
 ############################# SSH Connection #############################
 
-set prompt "C:\Users\$username>";  # Set the promts using the username provided
+set prompt "C:\Users\$username>";  # Set the prompts using the username provided
 set ps_prompt "PS C:\Users\$username>";
 
 spawn ssh $username@$ip;  # SSH Connection
@@ -36,8 +36,17 @@ expect "$prompt";  # cmd prompt to PS
 send "powershell\r";
 
 expect "$ps_prompt"; # PS prompt
-send "dir\r";
+
+#set value "Write-Host 'Congratulations! Your first script executed successfully'";
+# set command "New-Item -Path C:\Users\'Fran Colmenar' -Name 'scr2.ps1' -Value $value\r";
+
+# send $command;
+# send "New-Item -Path C:\Users\'Fran Colmenar' -Name 'scr2.ps1' -Value "Write-Host 'Congratulations! Your first script executed successfully'\r";
 
 interact
+
+# ssh -p 22 "desktop-ftpetae\fran colmenar"@172.16.46.2
+
+# TODO Call another script
 
 
