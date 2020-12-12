@@ -12,3 +12,5 @@ netsh advfirewall firewall add rule name="SSHD Port" dir=in action=allow protoco
 
 # Run SSH
 & .\ssh_run.ps1
+
+# TODO Add option to run them automatically on set up
