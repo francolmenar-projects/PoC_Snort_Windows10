@@ -1,6 +1,9 @@
 .idea/
 res/doc
 .DS_Store
+so_rules/
+src/Arp-Spoofer/
+src/flooder2.py
 
 
 # Byte-compiled / optimized / DLL files
