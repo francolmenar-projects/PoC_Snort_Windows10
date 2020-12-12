@@ -17,13 +17,27 @@ if { $argc == 3 } {  ###### No space at the username ######
   set password [lindex $argv 3]; # Password
 
 } else { ###### Wrong Format ######
-  puts "Wrong number of arguments provided"
-  puts "<ip> <username> <username_par_two_optional> <password>"
-  exit 1
+  puts "Wrong number of arguments provided";
+  puts "<ip> <username> <username_par_two_optional> <password>";
+  exit 1;
 }
 
-send "echo $ip\n"
-send "echo $username\n"
-send "echo $password\n"
+############################# SSH Connection #############################
+
+set prompt "C:\Users\$username>";  # Set the promts using the username provided
+set ps_prompt "PS C:\Users\$username>";
+
+spawn ssh $username@$ip;  # SSH Connection
+
+expect "password:";  # Send the password
+send "$password\r";
+
+expect "$prompt";  # cmd prompt to PS
+send "powershell\r";
+
+expect "$ps_prompt"; # PS prompt
+send "dir\r";
+
+interact
 
 
