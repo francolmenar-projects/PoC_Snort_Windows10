@@ -16,3 +16,11 @@ The structure of the project is the following one.
 
 ./hydra -s <port> -v -V -w <waittime> -l <username> -P <path to password file> -t <number of threads> <ip> <protocol>
 ```
+
+- **port scanning**: Simple nmap scan on the ip. More options are possible to be added but at this point it's enough.
+
+```
+nmap 172.16.46.2
+
+nmap <ip>
+```
