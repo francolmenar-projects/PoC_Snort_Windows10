@@ -1,3 +1,122 @@
-alert icmp any any -> any any (msg:"ICMP Rule"; sid:1000001; rev:1;)
-alert tcp any any -> any any (msg:"TCP Rule"; sid:1000002; rev:1;)
-alert udp any any -> any any (msg:"UDP Rule"; sid:1000003; rev:1;)
+ # ------------------------------ SSH BRUTE FORCE ------------------------------ #
+alert tcp $EXTERNAL_NET any -> $HOME_NET 22 (msg:"Possible SSH brute forcing."; flags: S+; threshold: type both, track by_src, count 5, seconds 30; sid:20000001; rev: 1;)
+alert tcp $EXTERNAL_NET any -> $HOME_NET 22 (msg:"Possible SSH brute forcing with different IP addresses."; flags: S+; threshold: type both, track by_dst, count 10, seconds 45; sid:20000002; rev: 1;)
+
+alert tcp $EXTERNAL_NET any -> $HOME_NET 22 (msg:"SSH brute forcing with high volume."; flags: S+; threshold: type both, track by_src, count 50, seconds 30; sid:20000003; rev: 1;)
+alert tcp $EXTERNAL_NET any -> $HOME_NET 22 (msg:"SSH brute forcing with high volume using different addresses."; flags: S+; threshold: type both, track by_src, count 75, seconds 45; sid:20000004; rev: 1;)
+
+ # ------------------------------ NMAP Scan ------------------------------ #
+ # -------------- NMAP ICMP -------------- #
+alert icmp any any -> $HOME_NET 20 (msg:"Nmap icmp FTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000001; rev:1;)
+alert icmp any any -> $HOME_NET 21 (msg:"Nmap icmp FTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000002; rev:1;)
+alert icmp any any -> $HOME_NET 22 (msg:"Nmap icmp TCP or UDP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000003; rev:1;)
+alert icmp any any -> $HOME_NET 25 (msg:"Nmap icmp SMTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000004; rev:1;)
+alert icmp any any -> $HOME_NET 53 (msg:"Nmap icmp DNS port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000005; rev:1;)
+alert icmp any any -> $HOME_NET 80 (msg:"Nmap icmp HTTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000006; rev:1;)
+alert icmp any any -> $HOME_NET 443 (msg:"Nmap icmp HTTP SSL port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000007; rev:1;)
+alert icmp any any -> $HOME_NET 3389 (msg:"Nmap icmp Remote Desktop port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000008; rev:1;)
+alert icmp any any -> $HOME_NET 5060 (msg:"Nmap icmp to VoIP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000009; rev:1;)
+alert icmp any any -> $HOME_NET 5061 (msg:"Nmap icmp to VoIP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000010; rev:1;)
+
+# -------------- NMAP TCP SYN -------------- #
+alert tcp any any -> $HOME_NET 20 (flags: S; msg:"Nmap SYN to FTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000011; rev:1;)
+alert tcp any any -> $HOME_NET 21 (flags: S; msg:"Nmap SYN to FTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000012; rev:1;)
+alert tcp any any -> $HOME_NET 22 (flags: S; msg:"Nmap SYN to TCP or UDP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000012; rev:1;)
+alert tcp any any -> $HOME_NET 25 (flags: S; msg:"Nmap SYN to SMTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000013; rev:1;)
+alert tcp any any -> $HOME_NET 53 (flags: S; msg:"Nmap SYN to DNS port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000014; rev:1;)
+alert tcp any any -> $HOME_NET 80 (flags: S; msg:"Nmap SYN to HTTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000015; rev:1;)
+alert tcp any any -> $HOME_NET 443 (flags: S; msg:"Nmap SYN to HTTP SSL port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000016; rev:1;)
+alert tcp any any -> $HOME_NET 3389 (flags: S; msg:"Nmap SYN to Remote Desktop port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000017; rev:1;)
+alert tcp any any -> $HOME_NET 5060 (flags: S; msg:"Nmap SYN to VoIP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000018; rev:1;)
+alert tcp any any -> $HOME_NET 5061 (flags: S; msg:"Nmap SYN to VoIP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000019; rev:1;)
+
+# -------------- NMAP TCP ACK -------------- #
+alert tcp any any -> $HOME_NET 20 (flags: A; msg:"Nmap ACK to FTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000020; rev:1;)
+alert tcp any any -> $HOME_NET 21 (flags: A; msg:"Nmap ACK to FTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000021; rev:1;)
+alert tcp any any -> $HOME_NET 22 (flags: A; msg:"Nmap ACK to TCP or UDP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000022; rev:1;)
+alert tcp any any -> $HOME_NET 25 (flags: A; msg:"Nmap ACK to SMTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000023; rev:1;)
+alert tcp any any -> $HOME_NET 53 (flags: A; msg:"Nmap ACK to DNS port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000024; rev:1;)
+alert tcp any any -> $HOME_NET 80 (flags: A; msg:"Nmap ACK to HTTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000025; rev:1;)
+alert tcp any any -> $HOME_NET 443 (flags: A; msg:"Nmap ACK to HTTP SSL port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000026; rev:1;)
+alert tcp any any -> $HOME_NET 3389 (flags: A; msg:"Nmap ACK to Remote Desktop port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000027; rev:1;)
+alert tcp any any -> $HOME_NET 5060 (flags: A; msg:"Nmap ACK to VoIP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000028; rev:1;)
+alert tcp any any -> $HOME_NET 5061 (flags: A; msg:"Nmap ACK to VoIP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000029; rev:1;)
+
+# -------------- NMAP TCP FIN -------------- #
+alert tcp any any -> $HOME_NET 20 (flags: F; msg:"Nmap FIN to FTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000030; rev:1;)
+alert tcp any any -> $HOME_NET 21 (flags: F; msg:"Nmap FIN to FTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000031; rev:1;)
+alert tcp any any -> $HOME_NET 22 (flags: F; msg:"Nmap FIN to TCP or UDP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000032; rev:1;)
+alert tcp any any -> $HOME_NET 25 (flags: F; msg:"Nmap FIN to SMTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000033; rev:1;)
+alert tcp any any -> $HOME_NET 53 (flags: F; msg:"Nmap FIN to DNS port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000034; rev:1;)
+alert tcp any any -> $HOME_NET 80 (flags: F; msg:"Nmap FIN to HTTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000035; rev:1;)
+alert tcp any any -> $HOME_NET 443 (flags: F; msg:"Nmap FIN to HTTP SSL port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000036; rev:1;)
+alert tcp any any -> $HOME_NET 3389 (flags: F; msg:"Nmap FIN to Remote Desktop port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000037; rev:1;)
+alert tcp any any -> $HOME_NET 5060 (flags: F; msg:"Nmap FIN to VoIP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000038; rev:1;)
+alert tcp any any -> $HOME_NET 5061 (flags: F; msg:"Nmap FIN to VoIP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000039; rev:1;)
+
+# -------------- NMAP TCP RST -------------- #
+alert tcp any any -> $HOME_NET 20 (flags: R; msg:"Nmap RST to FTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000040; rev:1;)
+alert tcp any any -> $HOME_NET 21 (flags: R; msg:"Nmap RST to FTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000041; rev:1;)
+alert tcp any any -> $HOME_NET 22 (flags: R; msg:"Nmap RST to TCP or UDP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000042; rev:1;)
+alert tcp any any -> $HOME_NET 25 (flags: R; msg:"Nmap RST to SMTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000043; rev:1;)
+alert tcp any any -> $HOME_NET 53 (flags: R; msg:"Nmap RST to DNS port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000044; rev:1;)
+alert tcp any any -> $HOME_NET 80 (flags: R; msg:"Nmap RST to HTTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000045; rev:1;)
+alert tcp any any -> $HOME_NET 443 (flags: R; msg:"Nmap RST to HTTP SSL port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000046; rev:1;)
+alert tcp any any -> $HOME_NET 3389 (flags: R; msg:"Nmap RST to Remote Desktop port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000047; rev:1;)
+alert tcp any any -> $HOME_NET 5060 (flags: R; msg:"Nmap RST to VoIP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000048; rev:1;)
+alert tcp any any -> $HOME_NET 5061 (flags: R; msg:"Nmap RST to VoIP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000049; rev:1;)
+
+# -------------- NMAP XMAS -------------- #
+alert tcp any any -> $HOME_NET 20 (flags: FPU; msg:"Nmap XMAS to FTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000050; rev:1;)
+alert tcp any any -> $HOME_NET 21 (flags: FPU; msg:"Nmap XMAS to FTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000051; rev:1;)
+alert tcp any any -> $HOME_NET 22 (flags: FPU; msg:"Nmap XMAS to TCP or UDP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000052; rev:1;)
+alert tcp any any -> $HOME_NET 25 (flags: FPU; msg:"Nmap XMAS to SMTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000053; rev:1;)
+alert tcp any any -> $HOME_NET 53 (flags: FPU; msg:"Nmap XMAS to DNS port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000054; rev:1;)
+alert tcp any any -> $HOME_NET 80 (flags: FPU; msg:"Nmap XMAS to HTTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000055; rev:1;)
+alert tcp any any -> $HOME_NET 443 (flags: FPU; msg:"Nmap XMAS to HTTP SSL port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000056; rev:1;)
+alert tcp any any -> $HOME_NET 3389 (flags: FPU; msg:"Nmap XMAS to Remote Desktop port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000057; rev:1;)
+alert tcp any any -> $HOME_NET 5060 (flags: FPU; msg:"Nmap XMAS to VoIP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000058; rev:1;)
+alert tcp any any -> $HOME_NET 5061 (flags: FPU; msg:"Nmap XMAS to VoIP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000059; rev:1;)
+
+# -------------- NMAP NULL -------------- #
+alert tcp any any -> $HOME_NET 20 (flags: 0; msg:"Nmap NULL to FTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000060; rev:1;)
+alert tcp any any -> $HOME_NET 21 (flags: 0; msg:"Nmap NULL to FTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000061; rev:1;)
+alert tcp any any -> $HOME_NET 22 (flags: 0; msg:"Nmap NULL to TCP or UDP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000062; rev:1;)
+alert tcp any any -> $HOME_NET 25 (flags: 0; msg:"Nmap NULL to SMTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000063; rev:1;)
+alert tcp any any -> $HOME_NET 53 (flags: 0; msg:"Nmap NULL to DNS port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000064; rev:1;)
+alert tcp any any -> $HOME_NET 80 (flags: 0; msg:"Nmap NULL to HTTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000065; rev:1;)
+alert tcp any any -> $HOME_NET 443 (flags: 0; msg:"Nmap NULL to HTTP SSL port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000066; rev:1;)
+alert tcp any any -> $HOME_NET 3389 (flags: 0; msg:"Nmap NULL to Remote Desktop port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000067; rev:1;)
+alert tcp any any -> $HOME_NET 5060 (flags: 0; msg:"Nmap NULL to VoIP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000068; rev:1;)
+alert tcp any any -> $HOME_NET 5061 (flags: 0; msg:"Nmap NULL to VoIP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000069; rev:1;)
+
+# -------------- NMAP UDP -------------- #
+alert udp any any -> $HOME_NET 20 (msg:"Nmap UDP to FTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000070; rev:1;)
+alert udp any any -> $HOME_NET 21 (msg:"Nmap UDP to FTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000071; rev:1;)
+alert udp any any -> $HOME_NET 22 (msg:"Nmap UDP to TCP or UDP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000072; rev:1;)
+alert udp any any -> $HOME_NET 25 (msg:"Nmap UDP to SMTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000073; rev:1;)
+alert udp any any -> $HOME_NET 53 (msg:"Nmap UDP to DNS port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000074; rev:1;)
+alert udp any any -> $HOME_NET 80 (msg:"Nmap UDP to HTTP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000075; rev:1;)
+alert udp any any -> $HOME_NET 443 (msg:"Nmap UDP to HTTP SSL port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000076; rev:1;)
+alert udp any any -> $HOME_NET 3389 (msg:"Nmap UDP to Remote Desktop port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000077; rev:1;)
+alert udp any any -> $HOME_NET 5060 (msg:"Nmap UDP to VoIP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000078; rev:1;)
+alert udp any any -> $HOME_NET 5061 (msg:"Nmap UDP to VoIP port"; dsize:0; threshold: type both, track by_dst, count 1, seconds 1; sid:30000079; rev:1;)
+
+ # ------------------------------ DOS  ------------------------------ #
+alert tcp !$HOME_NET any -> $HOME_NET any (flags: S; msg:"Possible SYN DoS"; flow: stateless; threshold: type both, track by_dst, count 700, seconds 10; sid:40000001;rev:1;)
+alert tcp !$HOME_NET any -> $HOME_NET any (flags: A; msg:"Possible ACK DoS"; flow: stateless; threshold: type both, track by_dst, count 700, seconds 10; sid:40000002;rev:1;)
+alert tcp !$HOME_NET any -> $HOME_NET any (flags: R; msg:"Possible RST DoS"; flow: stateless; threshold: type both, track by_dst, count 700, seconds 10; sid:40000003;rev:1;)
+alert tcp !$HOME_NET any -> $HOME_NET any (flags: F; msg:"Possible FIN DoS"; flow: stateless; threshold: type both, track by_dst, count 700, seconds 10; sid:40000004;rev:1;)
+alert udp !$HOME_NET any -> $HOME_NET any (msg:"Possible UDP DoS"; flow: stateless; threshold: type both, track by_dst, count 700, seconds 10; sid:10005;rev:1;)
+alert icmp !$HOME_NET any -> $HOME_NET any (msg:"Possible ICMP DoS"; threshold: type both, track by_dst, count 700, seconds 10; sid:10006;rev:1;)
+
+# ------------------------------ DDOS  ------------------------------ #
+alert tcp !$HOME_NET any -> $HOME_NET any (flags: S; msg:"Possible SYN DDoS"; flow: stateless; threshold: type both, track by_dst, count 100000, seconds 10; sid:40000101;rev:1;)
+alert tcp !$HOME_NET any -> $HOME_NET any (flags: A; msg:"Possible ACK DDoS"; flow: stateless; threshold: type both, track by_dst, count 100000, seconds 10; sid:40000102;rev:1;)
+alert tcp !$HOME_NET any -> $HOME_NET any (flags: R; msg:"Possible RST DDoS"; flow: stateless; threshold: type both, track by_dst, count 100000, seconds 10; sid:40000103;rev:1;)
+alert tcp !$HOME_NET any -> $HOME_NET any (flags: F; msg:"Possible FIN DDoS"; flow: stateless; threshold: type both, track by_dst, count 100000, seconds 10; sid:40000104;rev:1;)
+alert udp !$HOME_NET any -> $HOME_NET any (msg:"Possible UDP DDoS"; flow: stateless; threshold: type both, track by_dst, count 100000, seconds 10; sid:100005;rev:1;)
+alert icmp !$HOME_NET any -> $HOME_NET any (msg:"Possible ICMP DDoS"; threshold: type both, track by_dst, count 100000, seconds 10; sid:100006;rev:1;)
+
+# ------------------------------ PING OF DEATH  ------------------------------ #
+alert icmp any any -> $HOME_NET any (msg:"Possible Ping of Death"; dsize: > 10000; sid:40000201;rev:1;)
