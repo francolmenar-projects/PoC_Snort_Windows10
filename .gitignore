@@ -2,11 +2,8 @@
 res/doc
 .DS_Store
 so_rules/
-src/Arp-Spoofer/
-src/syn_flood//venv
-src/syn_flood//.idea
-src/kickthemout/
-
+src/syn_flood/venv
+src/syn_flood/.idea
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
