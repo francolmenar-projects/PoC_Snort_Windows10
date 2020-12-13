@@ -5,5 +5,3 @@ alert tcp $EXTERNAL_NET any -> $HOME_NET 22 (msg:"Possible SSH brute forcing wit
 alert tcp $EXTERNAL_NET any -> $HOME_NET 22 (msg:"SSH brute forcing with high volume."; flags: S+; threshold: type both, track by_src, count 50, seconds 30; sid:20000003; rev: 1;)
 alert tcp $EXTERNAL_NET any -> $HOME_NET 22 (msg:"SSH brute forcing with high volume using different addresses."; flags: S+; threshold: type both, track by_dst, count 75, seconds 45; sid:20000004; rev: 1;)
 
-
-
