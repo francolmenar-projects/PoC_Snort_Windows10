@@ -3,7 +3,11 @@ Directory containing the code used for the test attacks used for triggering the 
 
 The structure of the project is the following one.
 
- - **Arp-Spoofer**: 
+ - **kicktheamount**: Tool to perform and ARP spoofing on the victim.
+
+```
+ sudo python3 kickthemout.py --target 192.168.1.10
+``` 
 
  - **syn_flood**: Tool to be used for the Syn Flood Attack.
  
