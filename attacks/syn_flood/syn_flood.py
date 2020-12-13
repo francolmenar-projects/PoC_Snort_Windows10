@@ -8,14 +8,14 @@ from scapy.layers.inet import IP, TCP
 def usage():
 	print("SYN FLOOD attack script")
 	print("")
-	print("Usage: ./flooder2.py ")
+	print("Usage: ./syn_flood.py ")
 	print("-t --threads                 - Number of concurrent threads to use [default 50]")
 	print("-d --destination             - Ip of destination")
 	print("-p --port                    - Port of destination")
 	print("-s --source                  - Source ip address")
 	print("-c --count					- Number of packets to send")
 	print("")
-	print("Example: ./flooder2.py -t 500 -d 10.1.5.2 -p 80 -s 10.1.2.2")
+	print("Example: ./syn_flood.py -t 500 -d 10.1.5.2 -p 80 -s 10.1.2.2")
 	sys.exit(0)
 
 class Flooder(Thread):
