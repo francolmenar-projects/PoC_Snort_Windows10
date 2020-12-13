@@ -3,8 +3,8 @@ res/doc
 .DS_Store
 so_rules/
 src/Arp-Spoofer/
-src/flooder2.py
-
+src/Python-SYN-Flood-Attack-Tool/venv
+src/Python-SYN-Flood-Attack-Tool/.idea
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
