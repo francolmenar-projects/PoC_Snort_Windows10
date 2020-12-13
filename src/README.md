@@ -5,7 +5,14 @@ The structure of the project is the following one.
 
  - **Arp-Spoofer**: 
 
- - **Python-SYN-Flood-Attack-Tool**: Tool to be used for the Syn Flood Attack. I have issues to set the correct interface at scapy to send the packets to the VM so I could not test it. 
+ - **syn_flood**: Tool to be used for the Syn Flood Attack.
+ 
+```
+sudo python syn_flood.py -d 192.168.1.10 -p 22 -t 1
+
+sudo python syn_flood.py -d <ip> -p <port> -t <number of threads>
+```
+  
   
 - **port scanning**: Simple nmap scan on the ip. More options are possible to be added but at this point it's enough.
 
