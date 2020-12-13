@@ -7,6 +7,8 @@ The structure of the project is the following one.
 
 ```
  sudo python3 kickthemout.py --target 192.168.1.10
+
+ sudo python3 kickthemout.py --target <ip>
 ``` 
 
 - **port scanning**: Simple nmap scan on the ip. More options are possible to be added but at this point it's enough.
