@@ -1,7 +1,7 @@
-# Snort_imp
-Basic Implementation of Snort as a IDS to detect certain attacks. 
+# PoC_Snort_Windows10
+Proof of Concept of Snort implementation as a IDS at Windows 10 to detect certain attacks. 
 
-The structure of the project is the following one.
+The structure of the project's folders is the following one.
 
 - **attacks**: Folder containing the files for running the test attacks.
 

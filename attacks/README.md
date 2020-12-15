@@ -3,7 +3,7 @@ Directory containing the code used for the test attacks used for triggering the 
 
 The structure of the project is the following one.
 
- - **kicktheamount**: Tool to perform and ARP spoofing on the victim.
+ - **kicktheamount**: Tool to perform and ARP spoofing on the victim. Link [here](https://github.com/k4m4/kickthemout).
 
 ```
  sudo python3 kickthemout.py --target 192.168.1.10
@@ -29,7 +29,7 @@ nmap <ip>
 ./hydra -s <port> -v -V -w <waittime> -l <username> -P <path to password file> -t <number of threads> <ip> <protocol>
 ```
 
- - **syn_flood**: Tool to be used for the Syn Flood Attack.
+ - **syn_flood**: Tool to be used for the Syn Flood Attack based on the project [pyddos](https://github.com/mach1el/pyddos) by [mach1el](https://github.com/mach1el)..
  
 ```
 sudo python syn_flood.py -d 192.168.1.10 -p 22 -t 1
