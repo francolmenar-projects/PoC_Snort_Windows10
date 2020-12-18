@@ -1,0 +1,3 @@
+[submodule "attacks/kickthemout"]
+	path = attacks/kickthemout
+	url = https://github.com/k4m4/kickthemout.git
