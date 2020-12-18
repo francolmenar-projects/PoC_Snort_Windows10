@@ -1,0 +1,9 @@
+[submodule "attacks/kickthemout"]
+	path = attacks/kickthemout
+	url = https://github.com/k4m4/kickthemout.git
+[submodule "attacks/thc-hydra"]
+	path = attacks/thc-hydra
+	url = https://github.com/vanhauser-thc/thc-hydra.git
+[submodule "attacks/nmap"]
+	path = attacks/nmap
+	url = https://github.com/nmap/nmap.git

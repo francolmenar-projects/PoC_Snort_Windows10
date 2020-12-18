@@ -3,7 +3,7 @@ Directory containing the code used for the test attacks used for triggering the 
 
 The structure of the project is the following one.
 
- - **kicktheamount**: Tool to perform and ARP spoofing on the victim. Link [here](https://github.com/k4m4/kickthemout).
+ - **kickthemout**: Tool to perform and ARP spoofing on the victim. Link [here](https://github.com/k4m4/kickthemout).
 
 ```
  sudo python3 kickthemout.py --target 192.168.1.10
