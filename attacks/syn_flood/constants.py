@@ -1,0 +1,1 @@
+SYN_TYPE = "syn"
