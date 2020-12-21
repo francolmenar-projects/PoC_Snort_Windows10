@@ -1,3 +1,4 @@
+import os
 import sys
 
 import click
@@ -25,12 +26,7 @@ def syn_usage():
 
 def syn(destination, port, source, threads):
     """
-    TODO
-    :param destination:
-    :param port:
-    :param source:
-    :param threads:
-    :return:
+    Runs the SYN attack
     """
     if destination is None or port is None or source is None or threads is None:  # Wrong usage
         print("Outtt")
@@ -49,6 +45,7 @@ def syn(destination, port, source, threads):
         print("Wrong source address")
         return -1
 
+    os.system("")
 
 @click.group()
 def main():
