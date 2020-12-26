@@ -4,25 +4,26 @@ import sys
 import click
 from pyfiglet import Figlet
 
-from IPy import IP
-import ipaddress
-
 from constants import SYN_TYPE
 
-from attacks.syn_flood.syn_flood import run_atk
+from attacks.syn_flood.syn_flood import run_atk, usage_body
 
 
-def syn_usage():
+def syn_usage_header():
     print("SYN FLOOD attack option")
     print("")
     print("Usage: ./main.py run -atk syn")
-    print("-t --threads                 - Number of concurrent threads to use [default 50]")
-    print("-d --destination             - Ip of destination")
-    print("-p --port                    - Port of destination")
-    print("-s --source                  - Source ip address")
-    print("-c --count					- Number of packets to send")
-    print("")
-    print("Example: ./syn_flood.py -t 500 -d 10.1.5.2 -p 80 -s 10.1.2.2")
+
+
+def syn_usage_example():
+    print("Example: TODO")
+    sys.exit(0)
+
+
+def syn_usage():
+    syn_usage_header()
+    usage_body()
+    syn_usage_example()
     sys.exit(0)
 
 
@@ -44,8 +45,8 @@ def main():
 
 @main.command(help='Command to specify which attack to perform.')
 @click.option('--attack', '-atk', required=True, nargs=1, help='Type of the Flooder attack to be performed.')
-@click.option('-d', '--destination',  help='Destination IP Address')
-@click.option('-p', '--port', type=int,  help='Destination Port')
+@click.option('-d', '--destination', help='Destination IP Address')
+@click.option('-p', '--port', type=int, help='Destination Port')
 @click.option('-s', '--source', help='Source address to send from')
 @click.option('-t', '--threads', default=500, help='Number of threads to use')
 def run(attack=None, destination=None, port=None, source=None, threads=500):

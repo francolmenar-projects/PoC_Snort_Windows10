@@ -8,17 +8,29 @@ from scapy.layers.inet import IP, TCP
 import ipaddress
 
 
-def usage():
+def usage_header():
     print("SYN FLOOD attack script")
     print("")
     print("Usage: ./syn_flood.py ")
+
+
+def usage_body():
     print("-t --threads                 - Number of concurrent threads to use [default 50]")
     print("-d --destination             - Ip of destination")
     print("-p --port                    - Port of destination")
     print("-s --source                  - Source ip address")
     print("-c --count					- Number of packets to send")
     print("")
+
+
+def usage_example():
     print("Example: ./syn_flood.py -t 500 -d 10.1.5.2 -p 80 -s 10.1.2.2")
+
+
+def usage():
+    usage_header()
+    usage_body()
+    usage_example()
     sys.exit(0)
 
 
