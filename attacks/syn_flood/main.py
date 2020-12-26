@@ -16,7 +16,7 @@ def syn_usage_header():
 
 
 def syn_usage_example():
-    print("Example: TODO")
+    print("Example: main.py run -atk syn -d 127.0.0.1 -p 4 -s 127.0.0.1 -t 50")
 
 
 def syn_usage():

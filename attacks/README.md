@@ -32,10 +32,17 @@ nmap <ip>
  - **syn_flood**: Tool to be used for the Syn Flood Attack based on the project [pyddos](https://github.com/mach1el/pyddos) by [mach1el](https://github.com/mach1el)..
  
 ```
-sudo python syn_flood.py -d 192.168.1.10 -p 22 -t 1
+sudo python main.py run -atk syn -d 127.0.0.1 -p 4 -s 127.0.0.1 -t 50
 
-sudo python syn_flood.py -d <ip> -p <port> -t <number of threads>
+sudo python main.py -atk <attack to be used> -d <ip> -p <port> -s <source address> -t <number of threads>
 ```
   
+ - **syn_flood**: Tool to be used for the Syn Flood Attack based on the project [pyddos](https://github.com/mach1el/pyddos) by [mach1el](https://github.com/mach1el)..
+ 
+```
+sudo python syn_flood.py -d 127.0.0.1 -p 80 -s 127.0.0.1 -t 50
+
+sudo python syn_flood.py -d <ip> -p <port> -s <source address> -t <number of threads>
+```
  
  
