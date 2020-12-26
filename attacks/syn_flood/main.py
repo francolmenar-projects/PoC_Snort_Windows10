@@ -6,7 +6,7 @@ from pyfiglet import Figlet
 
 from constants import SYN_TYPE
 
-from attacks.syn_flood.syn_flood import run_atk, usage_body
+from syn_flood import run_atk, usage_body
 
 
 def syn_usage_header():
@@ -17,14 +17,12 @@ def syn_usage_header():
 
 def syn_usage_example():
     print("Example: TODO")
-    sys.exit(0)
 
 
 def syn_usage():
     syn_usage_header()
     usage_body()
     syn_usage_example()
-    sys.exit(0)
 
 
 def syn(destination_ip, port, source_ip, num_thread):

